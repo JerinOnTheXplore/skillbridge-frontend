@@ -1,3 +1,259 @@
+# SkillBridge-Frontend 🎓
+**"Connect with Expert Tutors, Learn Anything"**
+
+---
+
+## Project Overview
+
+A full‑stack tutoring platform backend built as **Assignment Project**. SkillBridge connects learners with expert tutors. **Students** can browse tutor profiles, view availability, and book sessions instantly. **Tutors** can manage their profiles, set availability, and track their teaching sessions. **Admins** oversee the platform and manage users.
+
+---
+
+## Roles & Permissions
+
+| Role | Description | Key Permissions |
+|------|-------------|-----------------|
+| **Student** | Learners who book tutoring sessions | Browse tutors, book sessions, leave reviews, manage profile |
+| **Tutor** | Experts who offer tutoring services | Create profile, set availability, view bookings, manage subjects |
+| **Admin** | Platform moderators | Manage all users, view analytics, moderate content |
+
+> 💡 **Note**: Users select their role during registration.Admin accounts should be seeded in the database.
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology  | Purpose                           |
+| ----------- | --------------------------------- |
+| Node.js     | Runtime                           |
+| Express.js  | REST API framework                |
+| TypeScript  | Type safety                       |
+| PostgreSQL  | Relational database               |
+| Prisma ORM  | Database modeling & queries       |
+| Better Auth | Authentication & session handling |
+| Postman     | API testing                       |
+
+---
+
+## Features
+
+### Public Features
+- Browse and search tutors by subject, rating, and price
+- Filter tutors by category
+- View detailed tutor profiles with reviews
+- Landing page with featured tutors
+
+### Student Features
+- Register and login as student
+- Book tutoring sessions
+- View upcoming and past bookings
+- Leave reviews after sessions
+- Manage profile
+
+### Tutor Features
+- Register and login as tutor
+- Create and update tutor profile
+- Set availability slots
+- View teaching sessions
+- See ratings and reviews
+
+### Admin Features
+- View all users (students and tutors)
+- Manage user status (ban/unban)
+- View all bookings
+- Manage categories
+
+
+## Project Overview
+
+SkillBridge is a full-stack web application that connects learners with expert tutors. Students can browse tutor profiles, view availability, and book sessions instantly. Tutors can manage their profiles, set availability, and track their teaching sessions. Admins oversee the platform and manage users.
+
+---
+
+## Roles & Permissions
+
+| Role | Description | Key Permissions |
+|------|-------------|-----------------|
+| **Student** | Learners who book tutoring sessions | Browse tutors, book sessions, leave reviews, manage profile |
+| **Tutor** | Experts who offer tutoring services | Create profile, set availability, view bookings, manage subjects |
+| **Admin** | Platform moderators | Manage all users, view analytics, moderate content |
+
+> 💡 **Note**: Users select their role during registration.Admin accounts should be seeded in the database.
+
+---
+
+## Features
+
+### Public Features
+- Browse and search tutors by subject, rating, and price
+- Filter tutors by category
+- View detailed tutor profiles with reviews
+- Landing page with featured tutors
+
+### Student Features
+- Register and login as student
+- Book tutoring sessions
+- View upcoming and past bookings
+- Leave reviews after sessions
+- Manage profile
+
+### Tutor Features
+- Register and login as tutor
+- Create and update tutor profile
+- Set availability slots
+- View teaching sessions
+- See ratings and reviews
+
+### Admin Features
+- View all users (students and tutors)
+- Manage user status (ban/unban)
+- View all bookings
+- Manage categories
+
+### Authentication
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/auth/register` | Register new user |
+| POST | `/api/auth/login` | Login user |
+| GET | `/api/auth/me` | Get current user |
+
+### Tutors (Public)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/tutors` | Get all tutors with filters |
+| GET | `/api/tutors/:id` | Get tutor details |
+| GET | `/api/categories` | Get all categories |
+
+### Bookings
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/bookings` | Create new booking |
+| GET | `/api/bookings` | Get user's bookings |
+| GET | `/api/bookings/:id` | Get booking details |
+
+### Tutor Management
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| PUT | `/api/tutor/profile` | Update tutor profile |
+| PUT | `/api/tutor/availability` | Update availability |
+
+### Reviews
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/reviews` | Create review |
+
+### Admin
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/admin/users` | Get all users |
+| PATCH | `/api/admin/users/:id` | Update user status |
+
+## Flow Diagrams
+
+### 👨‍🎓 Student Journey
+
+```
+                              ┌──────────────┐
+                              │   Register   │
+                              └──────────────┘
+                                     │
+                                     ▼
+                              ┌──────────────┐
+                              │Browse Tutors │
+                              └──────────────┘
+                                     │
+                                     ▼
+                              ┌──────────────┐
+                              │ View Profile │
+                              └──────────────┘
+                                     │
+                                     ▼
+                              ┌──────────────┐
+                              │ Book Session │
+                              └──────────────┘
+                                     │
+                                     ▼
+                              ┌──────────────┐
+                              │    Attend    │
+                              └──────────────┘
+                                     │
+                                     ▼
+                              ┌──────────────┐
+                              │ Leave Review │
+                              └──────────────┘
+```
+
+### 👨‍🏫 Tutor Journey
+
+```
+                              ┌──────────────┐
+                              │   Register   │
+                              └──────────────┘
+                                     │
+                                     ▼
+                              ┌──────────────┐
+                              │Create Profile│
+                              └──────────────┘
+                                     │
+                                     ▼
+                              ┌──────────────┐
+                              │    Set       │
+                              │ Availability │
+                              └──────────────┘
+                                     │
+                                     ▼
+                              ┌──────────────┐
+                              │View Sessions │
+                              └──────────────┘
+                                     │
+                                     ▼
+                              ┌──────────────┐
+                              │Mark Complete │
+                              └──────────────┘
+```
+
+### 📊 Booking Status
+
+```
+                              ┌──────────────┐
+                              │  CONFIRMED   │
+                              │   (instant)  │
+                              └──────────────┘
+                               /            \
+                              /              \
+                       (tutor)          (student)
+                        marks            cancels
+                            /                \
+                           ▼                  ▼
+                   ┌──────────────┐   ┌──────────────┐
+                   │  COMPLETED   │   │  CANCELLED   │
+                   └──────────────┘   └──────────────┘
+```
+
+---
+
+## ▶️ Run Locally
+
+```bash
+npm install
+npx prisma migrate dev
+npm run dev
+```
+
+---
+
+## 🔑 Admin Credentials (Demo)
+
+```
+Email: 
+Password: 
+```
+
+---
+
+
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
