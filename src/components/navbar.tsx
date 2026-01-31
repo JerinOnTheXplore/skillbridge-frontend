@@ -1,124 +1,140 @@
 "use client";
 
 import Link from "next/link";
-import { getToken } from "../lib/auth";
+import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
-import { FiMenu, FiX } from "react-icons/fi";
+import { Menu, X } from "lucide-react";
+
+function NavItems({
+  session,
+  onClick,
+}: {
+  session: unknown;
+  onClick?: () => void;
+}) {
+  const baseClass =
+    "text-gray-700 hover:text-gray-600 transition";
+
+  return (
+    <>
+      <Link href="/" onClick={onClick} className={baseClass}>
+        Home
+      </Link>
+      <Link href="/tutors" onClick={onClick} className={baseClass}>
+        Tutor
+      </Link>
+
+      {!session && (
+        <>
+          <Link href="/login" onClick={onClick} className={baseClass}>
+            Login
+          </Link>
+          <Link href="/register" onClick={onClick} className={baseClass}>
+            Register
+          </Link>
+        </>
+      )}
+
+      {session && (
+        <>
+          <Link href="/dashboard" onClick={onClick} className={baseClass}>
+            Dashboard
+          </Link>
+          <Link href="/profile" onClick={onClick} className={baseClass}>
+            My Profile
+          </Link>
+          <button
+            onClick={() => {
+              signOut();
+              onClick?.();
+            }}
+            className={`${baseClass} text-left`}
+          >
+            Logout
+          </button>
+        </>
+      )}
+    </>
+  );
+}
 
 export default function Navbar() {
-  const token = getToken();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const { data: session } = useSession();
+  const [open, setOpen] = useState(false);
 
   return (
     <nav className="bg-white shadow-md fixed w-full z-50">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center">
 
-        {/* main row */}
-        <div className="flex items-center justify-between py-4 md:py-6">
+        {/* Logo */}
+        <Link href="/" className="font-bold text-xl sm:text-2xl text-gray-600">
+          🎓Sk!lL<span className="text-yellow-400">BR!DGE</span>
+        </Link>
 
-          {/* brand */}
-          <Link href="/" className="flex items-start gap-1">
-            <span className="text-5xl sm:text-3xl font-extrabold text-gray-800 relative leading-none">
-             🎓Sk!lL
-            </span>
-            <span className="relative inline-block">
-              <span className="absolute -top-3 left-0 bg-yellow-400 text-gray-800 text-[10px] sm:text-xs font-bold px-3 py-1 rounded-md rotate-[-6deg] tracking-widest shadow">
-                BR!DGE
-              </span>
-            </span>
+        {/* Center Menu (Desktop) */}
+        <div className="hidden md:flex flex-1 justify-center gap-8 font-medium">
+          <NavItems session={session} />
+        </div>
+
+        {/* Right Button (Desktop) */}
+        <div className="hidden md:block">
+          <Link
+            href="/book-session"
+            className="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-2 rounded-md font-semibold transition"
+          >
+            Book a Session
           </Link>
+        </div>
 
-          {/*medium+ device */}
+        {/* Mobile Menu Button */}
+        <button
+          className="ml-auto md:hidden p-2 rounded-md bg-yellow-400 text-white"
+          onClick={() => setOpen(true)}
+        >
+          <Menu size={22} />
+        </button>
+      </div>
 
-          <div className="hidden md:flex flex-1 justify-center items-center gap-8 text-lg font-medium">
-            <Link href="/" className="text-gray-800 hover:text-yellow-400">
-              Home
-            </Link>
-            <Link href="/tutors" className="text-gray-800 hover:text-yellow-400">
-              Tutor
-            </Link>
+      {/* Mobile Drawer */}
+      <div
+        className={`fixed inset-0 z-50 transition ${
+          open ? "visible" : "invisible"
+        }`}
+      >
+        {/* Overlay */}
+        <div
+          className={`absolute inset-0 bg-black/40 transition-opacity ${
+            open ? "opacity-100" : "opacity-0"
+          }`}
+          onClick={() => setOpen(false)}
+        />
 
-            {!token && (
-              <>
-                <Link href="/login" className="text-gray-800 hover:text-yellow-400">
-                  Login
-                </Link>
-                <Link href="/register" className="text-gray-800 hover:text-yellow-400">
-                  Register
-                </Link>
-              </>
-            )}
-
-            {token && (
-              <>
-                <Link href="/dashboard" className="text-gray-800 hover:text-yellow-400">
-                  Dashboard
-                </Link>
-                <Link href="/profile" className="text-gray-800 hover:text-yellow-400">
-                  My Profile
-                </Link>
-              </>
-            )}
+        {/* Drawer */}
+        <div
+          className={`absolute top-0 right-0 h-full w-64 bg-yellow-400 text-white
+          transform transition-transform duration-300
+          ${open ? "translate-x-0" : "translate-x-full"}`}
+        >
+          <div className="flex items-center justify-between px-4 py-4 border-b border-yellow-300">
+            <span className="font-bold text-lg">Menu</span>
+            <button onClick={() => setOpen(false)}>
+              <X size={22} />
+            </button>
           </div>
 
-          {/* Book a Session button*/}
-          <div className="hidden md:flex">
+          <div className="flex flex-col gap-4 px-4 py-6 font-medium">
+            <NavItems session={session} onClick={() => setOpen(false)} />
+
+            {/* Book Session (Mobile) */}
             <Link
               href="/book-session"
-              className="bg-yellow-400 text-gray-800 px-5 py-2 rounded-xl font-semibold shadow hover:scale-105 transition"
+              onClick={() => setOpen(false)}
+              className="mt-4 bg-white text-yellow-500 text-center py-2 rounded-md font-semibold"
             >
               Book a Session
             </Link>
           </div>
-
-          {/*small devices */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="text-2xl text-gray-800 focus:outline-none animate-bounce"
-            >
-              {menuOpen ? <FiX /> : <FiMenu />}
-            </button>
-          </div>
-
         </div>
-
-        {/* drawer menu .. small devices */}
-        <div
-          className={`md:hidden fixed top-0 left-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-500 ease-in-out ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
-        >
-          <div className="flex flex-col mt-20 space-y-6 px-6 text-lg font-medium">
-            <Link href="/" className="text-gray-800 hover:text-yellow-400" onClick={() => setMenuOpen(false)}>
-              Home
-            </Link>
-            <Link href="/tutors" className="text-gray-800 hover:text-yellow-400" onClick={() => setMenuOpen(false)}>
-              Tutor
-            </Link>
-
-            {!token && (
-              <>
-                <Link href="/login" className="text-gray-800 hover:text-yellow-400" onClick={() => setMenuOpen(false)}>
-                  Login
-                </Link>
-                <Link href="/register" className="text-gray-800 hover:text-yellow-400" onClick={() => setMenuOpen(false)}>
-                  Register
-                </Link>
-              </>
-            )}
-
-            {token && (
-              <>
-                <Link href="/dashboard" className="text-gray-800 hover:text-yellow-400" onClick={() => setMenuOpen(false)}>
-                  Dashboard
-                </Link>
-                <Link href="/profile" className="text-gray-800 hover:text-yellow-400" onClick={() => setMenuOpen(false)}>
-                  My Profile
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-
       </div>
     </nav>
   );
