@@ -129,7 +129,7 @@ export default function Navbar() {
             <Link
               href="/book-session"
               onClick={() => setOpen(false)}
-              className="mt-4 bg-white text-yellow-500 text-center py-2 rounded-md font-semibold"
+              className="mt-4 bg-white text-yellow-400 text-center py-2 rounded-md font-semibold"
             >
               Book a Session
             </Link>
