@@ -1,5 +1,7 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
+import { CgMenuGridO } from "react-icons/cg";
+import { TiThListOutline } from "react-icons/ti";
 
 export default function TutorsViewToggle() {
   const router = useRouter();
@@ -13,8 +15,8 @@ export default function TutorsViewToggle() {
 
   return (
     <div className="flex gap-2">
-      <button onClick={() => setView("grid")}>⬛</button>
-      <button onClick={() => setView("list")}>☰</button>
+      <button className="bg-gray-500 rounded-full p-3" onClick={() => setView("grid")}><CgMenuGridO /></button>
+      <button className="bg-gray-500 rounded-full p-3" onClick={() => setView("list")}><TiThListOutline /></button>
     </div>
   );
 }

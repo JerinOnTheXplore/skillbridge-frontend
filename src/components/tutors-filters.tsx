@@ -5,30 +5,34 @@ export default function TutorsFilters() {
   const router = useRouter();
   const params = useSearchParams();
 
-  const update = (key: string, value: string) => {
+  const setRating = (rating: number) => {
     const p = new URLSearchParams(params.toString());
-    p.set(key, value);
+    p.set("minRating", String(rating));
     router.push(`/tutors?${p.toString()}`);
+    router.refresh();
   };
 
+  const activeRating = params.get("minRating");
+
   return (
-    <aside className="space-y-4">
-      <select onChange={(e) => update("limit", e.target.value)}>
-        <option value="5">5 per page</option>
-        <option value="10">10 per page</option>
-      </select>
-
-      <select onChange={(e) => update("minRating", e.target.value)}>
-        <option value="">Rating</option>
-        <option value="4">4+</option>
-        <option value="3">3+</option>
-      </select>
-
-      <select onChange={(e) => update("minExperience", e.target.value)}>
-        <option value="">Experience</option>
-        <option value="3">3+ years</option>
-        <option value="5">5+ years</option>
-      </select>
+    <aside className="space-y-3 mb-4">
+      
+      <div className="flex gap-2">
+        {[4, 3, 2].map((r) => (
+          <button
+            key={r}
+            onClick={() => setRating(r)}
+            className={`px-3 py-1 rounded-full border text-sm font-medium transition
+              ${
+                activeRating === String(r)
+                  ? "bg-yellow-400 border-yellow-400 text-white"
+                  : "bg-white border-gray-300 text-gray-700 hover:bg-yellow-100"
+              }`}
+          >
+            ⭐ {r}+
+          </button>
+        ))}
+      </div>
     </aside>
   );
 }

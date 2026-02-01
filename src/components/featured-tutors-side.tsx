@@ -3,9 +3,11 @@ import { tutorIllustrations } from "@/lib/tutor-illustrations";
 
 export default function FeaturedTutorsSide() {
   return (
-    <aside className="hidden lg:flex flex-col gap-4 max-w-3xl">
+    <aside className="hidden lg:flex flex-col gap-4 w-full max-w-xs">
+
+      <h1 className="text-2xl text-yellow-400 text-center mb-4 font-bold">Featured <span>Tutors</span></h1>
       {[0, 1, 2, 3].map((i) => (
-        <TutorCardGrid
+        <TutorCardGrid 
           key={i}
           tutor={{
             id: "x",
