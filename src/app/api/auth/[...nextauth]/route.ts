@@ -14,7 +14,12 @@ export const authOptions: AuthOptions = {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(credentials),
+          body: JSON.stringify(
+            {
+          email: credentials?.email,
+          password: credentials?.password,
+            }
+          ),
         });
 
         const data = await res.json();
