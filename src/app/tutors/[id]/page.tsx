@@ -155,9 +155,7 @@ export default function TutorDetailsPage() {
 
               <div className="flex-1">
                 <p className="text-sm text-gray-500">Instructor</p>
-                <h1 className="text-2xl font-bold text-gray-800">
-                  {tutor.user.name}
-                </h1>
+                <p className="text-gray-600 text-xl font-normal">Student</p> <h2 className="text-xl font-bold text-gray-600">{session?.user?.name}</h2> <p className="text-gray-700 font-medium">{session?.user?.email}</p>
               </div>
 
               <div className="flex gap-4">
