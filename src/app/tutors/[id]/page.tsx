@@ -155,6 +155,9 @@ export default function TutorDetailsPage() {
 
               <div className="flex-1">
                 <p className="text-sm text-gray-500">Instructor</p>
+                <h1 className="text-2xl font-bold text-gray-800">
+                  {tutor.user.name}
+                </h1>
               </div>
 
               <div className="flex gap-4">
