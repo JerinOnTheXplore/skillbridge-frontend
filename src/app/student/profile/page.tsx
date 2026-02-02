@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Star, CalendarCheck, Clock, User, UploadCloud } from "lucide-react";
+import { Star, CalendarCheck, Clock, UploadCloud } from "lucide-react";
 
 interface Booking {
   id: string;
@@ -41,7 +41,6 @@ export default function ManageProfilePage() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const [profileImage, setProfileImage] = useState<string | null>(null);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [reviewRating, setReviewRating] = useState(5);
@@ -80,29 +79,6 @@ export default function ManageProfilePage() {
     setLoading(false);
   }, [session]);
 
-  const handleProfileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !session?.accessToken) return;
-
-    // upload to  backend
-    const formData = new FormData();
-    formData.append("profileImage", file);
-
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/student/profile/upload`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${session.accessToken}` },
-        body: formData,
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Upload failed");
-      toast.success("Profile image updated!");
-      setProfileImage(data.url); // backend returns image URL
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  };
-
   const openReviewModal = (booking: Booking) => {
     setSelectedBooking(booking);
     setReviewRating(5);
@@ -140,20 +116,18 @@ export default function ManageProfilePage() {
   return (
     <section className="bg-white min-h-screen">
       <div className="max-w-6xl mx-auto px-4 py-24">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">Manage <span className="text-yellow-400">Your Profile</span></h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-8">
+          Manage <span className="text-yellow-400">Your Profile</span>
+        </h1>
 
-        {/* Profile Picture */}
+        {/*random public */}
         <div className="flex items-center gap-4 mb-12">
           <div className="relative w-28 h-28">
             <img
-              src={profileImage || "/profile-placeholder.png"}
+              src="/default-profile.png" // public folder er image
               alt="Profile"
               className="w-28 h-28 rounded-full object-cover border-4 border-yellow-400"
             />
-            <label className="absolute bottom-0 right-0 bg-yellow-400 rounded-full p-2 cursor-pointer hover:bg-yellow-500 transition">
-              <UploadCloud className="text-black" />
-              <input type="file" className="hidden" onChange={handleProfileUpload} />
-            </label>
           </div>
           <div>
             <p className="text-gray-600 text-xl font-normal">Student</p>
@@ -199,14 +173,14 @@ export default function ManageProfilePage() {
 
                   {/* Review button only for completed bookings */}
                   {b.status === "COMPLETED" &&
-  !reviews.find((r) => r.id === b.id) && (
-    <button
-      onClick={() => openReviewModal(b)}
-      className="mt-3 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded-xl transition"
-    >
-      Leave Review
-    </button>
-)}
+                    !reviews.find((r) => r.id === b.id) && (
+                      <button
+                        onClick={() => openReviewModal(b)}
+                        className="mt-3 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded-xl transition"
+                      >
+                        Leave Review
+                      </button>
+                    )}
                 </div>
               ))}
             </div>
@@ -237,7 +211,9 @@ export default function ManageProfilePage() {
         {showReviewModal && selectedBooking && (
           <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
             <div className="bg-white rounded-xl p-6 w-full max-w-md relative">
-              <h3 className="text-xl font-bold mb-4">Leave a Review for {selectedBooking.tutor.user.name}</h3>
+              <h3 className="text-xl font-bold mb-4">
+                Leave a Review for {selectedBooking.tutor.user.name}
+              </h3>
               <label className="block mb-2">Rating (1-5)</label>
               <input
                 type="number"
