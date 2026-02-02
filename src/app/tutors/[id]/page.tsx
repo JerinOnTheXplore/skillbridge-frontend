@@ -10,6 +10,7 @@ import {
   ShieldCheck,
   BookOpen,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 interface Tutor {
   id: string;
@@ -39,6 +40,7 @@ const tutorIllustrations = [
 ];
 
 export default function TutorDetailsPage() {
+  const { data: session, status } = useSession();
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
 
@@ -89,8 +91,9 @@ export default function TutorDetailsPage() {
 
   
   const handleBooking = async () => {
-  const token = localStorage.getItem("accessToken"); 
-console.log("ACCESS TOKEN ", localStorage.getItem("accessToken"));
+  const token = session?.accessToken;
+
+  console.log("ACCESS TOKEN", token);
 
   if (!token) {
     toast.error("Please login first");
@@ -126,6 +129,7 @@ console.log("ACCESS TOKEN ", localStorage.getItem("accessToken"));
     toast.error(err.message || "Booking failed");
   }
 };
+
 
 
   if (loading) {

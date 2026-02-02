@@ -24,11 +24,15 @@ export const authOptions: AuthOptions = {
 
         const data = await res.json();
 
-        if (res.ok && data.token) {
-          return { ...data.user, token: data.token }; // return typed user..
-        }
+        if (!res.ok) return null;
 
-        return null;
+    return {
+      id: data.data.id,
+      name: data.data.name,
+      email: data.data.email,
+      role: data.data.role,
+      accessToken: data.token, 
+    };
       },
     }),
 
@@ -43,23 +47,28 @@ export const authOptions: AuthOptions = {
   },
 
   callbacks: {
-    async jwt({ token, user }) {
-      if (user?.token) token.accessToken = user.token;
-      if (user) token.user = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        status: user.status,
-      };
-      return token;
-    },
-    async session({ session, token }) {
-      if (token.user) session.user = token.user;
-      if (token.accessToken) session.accessToken = token.accessToken;
-      return session;
-    },
-  },
+  async jwt({ token, user }) {
+  if (user) {
+    token.accessToken = user.accessToken; // ✅ FIX
+    token.user = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
+  }
+  return token;
+},
+
+
+  async session({ session, token }) {
+  session.user = token.user as any;
+  session.accessToken = token.accessToken as string;
+  return session;
+}
+
+},
+
 
   pages: {
     signIn: "/login",

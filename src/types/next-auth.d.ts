@@ -2,14 +2,13 @@ import NextAuth, { DefaultSession, DefaultUser } from "next-auth";
 
 declare module "next-auth" {
   interface Session {
+    accessToken?: string;
     user: {
       id: string;
       name: string;
       email: string;
-      role?: string;
-      status?: string;
-    } & DefaultSession["user"];
-    accessToken?: string;
+      role: string;
+    };
   }
 
   interface User {
@@ -18,7 +17,7 @@ declare module "next-auth" {
     email: string;
     role?: string;
     status?: string;
-    token?: string; //backend login theke
+    accessToken: string; //backend login theke
   }
 }
 
@@ -30,7 +29,7 @@ declare module "next-auth/jwt" {
       name: string;
       email: string;
       role?: string;
-      status?: string;
+      // status?: string;
     };
   }
 }
