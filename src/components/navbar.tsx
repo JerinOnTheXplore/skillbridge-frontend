@@ -40,8 +40,8 @@ function NavItems({
           <Link href="/dashboard" onClick={onClick} className={baseClass}>
             Dashboard
           </Link>
-          <Link href="/profile" onClick={onClick} className={baseClass}>
-            My Profile
+          <Link href="/student/profile" onClick={onClick} className={baseClass}>
+            My Bookings
           </Link>
           <button
             onClick={() => {

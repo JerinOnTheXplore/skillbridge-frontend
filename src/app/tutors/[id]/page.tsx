@@ -123,8 +123,8 @@ export default function TutorDetailsPage() {
       throw new Error(data.message || "Booking failed");
     }
 
-    toast.success("Session booked successfully 🎉");
-    router.push("/profile");
+    toast.success("Session booked successfully !!");
+    router.push("/student/profile");
   } catch (err: any) {
     toast.error(err.message || "Booking failed");
   }
