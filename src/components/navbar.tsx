@@ -40,9 +40,6 @@ function NavItems({
           <Link href="/dashboard" onClick={onClick} className={baseClass}>
             Dashboard
           </Link>
-          <Link href="/student/profile" onClick={onClick} className={baseClass}>
-            My Bookings
-          </Link>
           <button
             onClick={() => {
               signOut();
@@ -79,7 +76,7 @@ export default function Navbar() {
         {/* Right Button (Desktop) */}
         <div className="hidden md:block">
           <Link
-            href="/book-session"
+            href="/tutors"
             className="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-2 rounded-md font-semibold transition"
           >
             Book a Session

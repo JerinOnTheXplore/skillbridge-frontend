@@ -1,5 +1,7 @@
+import CategoriesSection from "@/components/CategoriesSection";
 import FeaturedTutors from "@/components/featured-tutors";
 import Hero from "@/components/hero";
+import SubjectsSection from "@/components/SubjectsSection";
 
 
 export default function Home() {
@@ -7,6 +9,8 @@ export default function Home() {
     <>
        <Hero/>
        <FeaturedTutors/>
+       <CategoriesSection/>
+       <SubjectsSection/>
     </>
   );
 }

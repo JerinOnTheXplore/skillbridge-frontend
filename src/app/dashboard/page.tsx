@@ -36,7 +36,6 @@ const getNavItems = (role: string) => {
   if (role === 'STUDENT') {
     return [
       ...common,
-      { name: 'My Bookings', href: '/dashboard/bookings', icon: CalendarIcon },
       { name: 'Find Tutors', href: '/tutors', icon: AcademicCapIcon },
       { name: 'Reviews', href: '/dashboard/reviews', icon: StarIcon },
     ];
@@ -453,12 +452,6 @@ function StudentDashboard({ session }: { session: any }) {
             className="px-4 py-3 bg-yellow-400 text-gray-800 font-medium rounded-lg hover:bg-yellow-500 transition-colors shadow-sm"
           >
             Book New Session
-          </button>
-          <button 
-            onClick={() => router.push('/dashboard/bookings')}
-            className="px-4 py-3 bg-white/80 border border-yellow-300/50 text-yellow-600 font-medium rounded-lg hover:bg-yellow-50/50 transition-colors backdrop-blur-sm"
-          >
-            View All Bookings
           </button>
         </div>
       </div>
